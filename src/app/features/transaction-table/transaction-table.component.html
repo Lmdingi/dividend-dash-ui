@@ -1,41 +1,41 @@
-<div class="card m-5" >
-    <div class="card-header d-flex justify-content-between">
-        <h4>Holdings</h4>
-        <button class="btn btn-primary">Add</button>
-    </div>
-    <div class="card-body">
-        <table class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Opening Total</th>
-                    <th>Ex Date</th>
-                    <!-- <th>Closing</th> -->
-                    <th>Dividend Date</th>
-                    <!-- <th>Dividend</th> -->
-                    <!-- <th>Net</th> -->
-                    <!-- <th>Profit</th> -->
-                </tr>
-            </thead>
-            <tbody>
-                @for (holding of holdings; track holding.id) {
-                <tr>
-                    <td>{{holding.name}}</td>
-                    <td>{{holding.symbol | uppercase }}</td>
-                    <td>{{holding.transaction.openingTotal | currency:'R':'symbol':'1.2-2' }}</td>
-                    <td>{{holding.summary.exDate | date: 'EEE d MMMM y'}}</td>
-                    <!-- <td>{{holding.transaction.closing | currency:'R':'symbol':'1.2-2'}}</td> -->
-                    <td>{{holding.summary.dividendDate | date: 'EEE d MMMM y'}}</td>
-                    <!-- <td>{{holding.summary.dividend | currency:'R':'symbol':'1.2-2'}}</td> -->
-                    <!-- <td>{{holding.summary.net | currency:'R':'symbol':'1.2-2'}}</td> -->
-                    <!-- <td>{{holding.summary.profit | currency:'R':'symbol':'1.2-2'}}</td> -->
-                    <td>
-                        <button type="button" class="btn btn-outline-info btn-sm" (click)="onDetails(holding.id)">Details</button>
-                    </td>
-                </tr>
-                }
-            </tbody>
-        </table>
+<div class="container">
+    <div class="card m-5">
+        <div class="card-header d-flex justify-content-between">
+            <h4>Holdings</h4>
+            <button class="btn btn-primary">Add</button>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Symbol</th>
+                        <th>Opening Total</th>
+                        <th>Ex Date</th>
+                        <th>Dividend Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (holding of holdings; track holding.id) {
+                    <tr>
+                        <td>{{holding.name}}</td>
+                        <td>{{holding.symbol | uppercase }}</td>
+                        <td>{{holding.transaction.openingTotal | currency:'R':'symbol':'1.2-2' }}</td>
+                        <td>{{holding.summary.exDate | date: 'EEE d MMMM y'}}</td>
+                        <td>{{holding.summary.dividendDate | date: 'EEE d MMMM y'}}</td>
+                        <td>
+                            <button type="button" class="btn btn-outline-info btn-sm"
+                                (click)="onDetails(details)">Details</button>
+                        </td>
+                    </tr>
+                    <tr #details style="display: none;">
+                        <td colspan="6">
+                            <app-transaction-detail [transaction]="holding"></app-transaction-detail>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

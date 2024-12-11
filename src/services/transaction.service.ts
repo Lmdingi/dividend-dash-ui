@@ -15,4 +15,8 @@ export class TransactionService {
   getAllTransactions(): Observable<Holding[]> {
     return this.http.get<Holding[]>(this.transactionUrl);
   }
+
+  getTransactionById(id: string): Observable<Holding> {
+    return this.http.get<Holding>(`${this.transactionUrl}/${id}`);
+  }
 }
