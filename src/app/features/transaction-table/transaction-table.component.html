@@ -11,11 +11,11 @@
                     <th>Code</th>
                     <th>Opening Total</th>
                     <th>Ex Date</th>
-                    <th>Closing</th>
+                    <!-- <th>Closing</th> -->
                     <th>Dividend Date</th>
-                    <th>Dividend</th>
-                    <th>Net</th>
-                    <th>Profit</th>
+                    <!-- <th>Dividend</th> -->
+                    <!-- <th>Net</th> -->
+                    <!-- <th>Profit</th> -->
                 </tr>
             </thead>
             <tbody>
@@ -25,13 +25,13 @@
                     <td>{{holding.symbol | uppercase }}</td>
                     <td>{{holding.transaction.openingTotal | currency:'R':'symbol':'1.2-2' }}</td>
                     <td>{{holding.summary.exDate | date: 'EEE d MMMM y'}}</td>
-                    <td>{{holding.transaction.closing | currency:'R':'symbol':'1.2-2'}}</td>
+                    <!-- <td>{{holding.transaction.closing | currency:'R':'symbol':'1.2-2'}}</td> -->
                     <td>{{holding.summary.dividendDate | date: 'EEE d MMMM y'}}</td>
-                    <td>{{holding.summary.dividend | currency:'R':'symbol':'1.2-2'}}</td>
-                    <td>{{holding.summary.net | currency:'R':'symbol':'1.2-2'}}</td>
-                    <td>{{holding.summary.profit | currency:'R':'symbol':'1.2-2'}}</td>
+                    <!-- <td>{{holding.summary.dividend | currency:'R':'symbol':'1.2-2'}}</td> -->
+                    <!-- <td>{{holding.summary.net | currency:'R':'symbol':'1.2-2'}}</td> -->
+                    <!-- <td>{{holding.summary.profit | currency:'R':'symbol':'1.2-2'}}</td> -->
                     <td>
-                        <button type="button" class="btn btn-outline-info btn-sm">Details</button>
+                        <button type="button" class="btn btn-outline-info btn-sm" (click)="onDetails(holding.id)">Details</button>
                     </td>
                 </tr>
                 }

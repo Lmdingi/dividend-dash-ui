@@ -32,4 +32,8 @@ export class TransactionTableComponent implements OnInit {
       transactionSubscription.unsubscribe();
     });
   }
+
+  onDetails(id: string): void {
+    console.log(id);
+  }
 }
