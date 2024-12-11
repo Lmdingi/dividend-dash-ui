@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { TransactionTableComponent } from './features/transaction-table/transaction-table.component';
-import { TransactionDetailComponent } from './features/transaction-detail/transaction-detail.component';
+import { EditTransactionComponent } from './features/edit-transaction/edit-transaction.component';
+
 
 export const routes: Routes = [
   { path: '', component: TransactionTableComponent },
-  // {path: "details", component: TransactionDetailComponent }
+  {path: "edit", component: EditTransactionComponent }
 ];
