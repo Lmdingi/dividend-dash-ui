@@ -4,18 +4,17 @@ import { TransactionService } from '../../../services/transaction.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionDetailComponent } from '../transaction-detail/transaction-detail.component';
+import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
 
 @Component({
   selector: 'app-transaction-table',
   standalone: true,
-  imports: [CommonModule, TransactionDetailComponent],
+  imports: [CommonModule, TransactionDetailComponent, AddTransactionComponent],
   templateUrl: './transaction-table.component.html',
   styleUrl: './transaction-table.component.css',
 })
 export class TransactionTableComponent implements OnInit {
   holdings: Holding[] = [];
-  currentVisible!: HTMLElement;
-  isVisible: boolean = false;
 
   constructor(
     private transactionService: TransactionService,
@@ -39,39 +38,10 @@ export class TransactionTableComponent implements OnInit {
   }
 
   onDetails(details: HTMLElement): void {
-    if (this.isVisible) {
-      if (details.style.display === '') {        
-        details.style.display = 'none';
-        this.isVisible = false;
-        return
-      }
-      this.currentVisible.style.display = 'none';
-    }
-
-    details.style.display = '';
-    this.currentVisible = details;
-    this.isVisible = true;
+    this.transactionService.collopsRow(details);
   }
 
-  // onDetails(id: string): void {
-  //   const transactionSubscription = this.transactionService
-  //     .getTransactionById(id)
-  //     .subscribe({
-  //       next: (response) => {
-  //         console.log(response);
-  //       },
-  //     });
-
-  //   this.destroyRef.onDestroy(() => {
-  //     transactionSubscription.unsubscribe();
-  //   });
-  // }
-
-  // onDetails(id: string): void {
-  //   this.router.navigate(['details'], {
-  //     relativeTo: this.route,
-  //     queryParams: { id: id },
-  //     queryParamsHandling: 'merge',
-  //   });
-  // }
+  onAdd(newHoldingForm: HTMLElement): void {
+    this.transactionService.collopsRow(newHoldingForm);
+  }
 }

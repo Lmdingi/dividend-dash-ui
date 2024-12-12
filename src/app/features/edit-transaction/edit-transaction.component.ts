@@ -1,8 +1,11 @@
-import { Component, DestroyRef, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Holding } from '../../../models/holding.model';
 import { TransactionService } from '../../../services/transaction.service';
 import { FormsModule } from '@angular/forms';
+import { type Holding } from '../../../models/holding.model';
+import { type Summary } from '../../../models/summary.model';
+import { type Transaction } from '../../../models/transaction.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit-transaction',
@@ -11,37 +14,38 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './edit-transaction.component.html',
   styleUrl: './edit-transaction.component.css',
 })
-export class EditTransactionComponent implements OnInit {
-  holding!: Holding;
-  holdingId!: string;
+export class EditTransactionComponent implements OnInit, OnDestroy {
+  holding: Holding = {
+    summary: {} as Summary,
+    transaction: {} as Transaction,
+  } as Holding;
+  holdingId?: string;
   isAlert = false;
+  routeSubscription?: Subscription;
+  transactionSubscription?: Subscription;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private transactionService: TransactionService,
-    private destroyRef: DestroyRef,
     private router: Router
   ) {}
 
   ngOnInit(): void {
-    const routeSubscription = this.activeRoute.queryParams.subscribe({
+    this.routeSubscription = this.activeRoute.queryParams.subscribe({
       next: (params) => {
         this.holdingId = params['id'];
       },
     });
 
-    const transactionSubscription = this.transactionService
-      .getTransactionById(this.holdingId)
-      .subscribe({
-        next: (response) => {
-          this.holding = response;
-        },
-      });
-
-    this.destroyRef.onDestroy(() => {
-      transactionSubscription.unsubscribe();
-      routeSubscription.unsubscribe();
-    });
+    if (this.holdingId) {
+      this.transactionSubscription = this.transactionService
+        .getTransactionById(this.holdingId)
+        .subscribe({
+          next: (response) => {
+            this.holding = response;
+          },
+        });
+    }
   }
 
   onSave() {
@@ -53,12 +57,30 @@ export class EditTransactionComponent implements OnInit {
       return;
     }
 
-    console.log('saved changes');
-
-    this.router.navigateByUrl('');
+    this.transactionSubscription = this.transactionService
+      .updateTransaction(this.holding)
+      .subscribe({
+        next: () => {
+          this.router.navigate(['/']);
+        },
+        error: (err) => {
+          // make popup
+          console.error(err);
+        },
+      });
   }
 
   onCancel(): void {
     this.router.navigateByUrl('');
+  }
+
+  ngOnDestroy(): void {
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe();
+    }
+
+    if (this.transactionSubscription) {
+      this.transactionSubscription.unsubscribe();
+    }
   }
 }

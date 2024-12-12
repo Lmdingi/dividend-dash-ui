@@ -13,11 +13,11 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './transaction-detail.component.css',
 })
 export class TransactionDetailComponent {
-  @Input() transaction!: Holding;
+  @Input() transaction: Holding = {} as Holding;
 
   constructor(private router: Router, private route: ActivatedRoute) {}
 
-  onEdit(id: string): void {
+  onEdit(id?: string): void {
     this.router.navigate(['edit'], {
       relativeTo: this.route,
       queryParams: { id: id },
