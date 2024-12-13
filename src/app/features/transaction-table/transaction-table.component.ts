@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionDetailComponent } from '../transaction-detail/transaction-detail.component';
 import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
+import { DataService } from '../../../services/data.service';
 
 @Component({
   selector: 'app-transaction-table',
@@ -14,26 +15,26 @@ import { AddTransactionComponent } from '../add-transaction/add-transaction.comp
   styleUrl: './transaction-table.component.css',
 })
 export class TransactionTableComponent implements OnInit {
+  data: any;
   holdings: Holding[] = [];
 
   constructor(
+    private dataService: DataService,
     private transactionService: TransactionService,
-    private destroyRef: DestroyRef,
-    private router: Router,
-    private route: ActivatedRoute
+    private destroyRef: DestroyRef
   ) {}
 
   ngOnInit(): void {
-    const transactionSubscription = this.transactionService
-      .getAllTransactions()
-      .subscribe({
-        next: (response) => {
-          this.holdings = response;
-        },
-      });
+    const dataSubscription = this.dataService.currentData.subscribe(
+      (updatedData) => {
+        this.holdings = updatedData;
+      }
+    );
+
+    this.dataService.updateData();
 
     this.destroyRef.onDestroy(() => {
-      transactionSubscription.unsubscribe();
+      dataSubscription.unsubscribe();
     });
   }
 

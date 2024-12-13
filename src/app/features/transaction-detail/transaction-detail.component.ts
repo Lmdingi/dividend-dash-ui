@@ -4,6 +4,7 @@ import { type Holding } from '../../../models/holding.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { DataService } from '../../../services/data.service';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -15,7 +16,12 @@ import { FormsModule } from '@angular/forms';
 export class TransactionDetailComponent {
   @Input() transaction: Holding = {} as Holding;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    private transactionService: TransactionService,
+    private dataService: DataService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   onEdit(id?: string): void {
     this.router.navigate(['edit'], {
@@ -23,5 +29,20 @@ export class TransactionDetailComponent {
       queryParams: { id: id },
       queryParamsHandling: 'merge',
     });
+  }
+
+  onDelete(): void {
+    this.transactionService
+      .deleteTransactionById(this.transaction.id)
+      .subscribe({
+        next: () => {
+          this.dataService.updateData();
+        },
+        error: (err) => {
+          console.error(err);
+        },
+      });
+
+    
   }
 }

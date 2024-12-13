@@ -11,8 +11,6 @@ export class TransactionService {
   transactionUrl = environment.apiBaseUrl + 'transaction';
   currentVisible?: HTMLElement;
   isVisible: boolean = false;
-  holdings: Holding[] = [];
- 
 
   constructor(private http: HttpClient) {}
 
@@ -30,6 +28,10 @@ export class TransactionService {
 
   createTransaction(holding?: Holding): Observable<Holding> {
     return this.http.post<Holding>(`${this.transactionUrl}`, holding);
+  }
+
+  deleteTransactionById(holdingId?: string): Observable<Holding> {
+    return this.http.delete<Holding>(`${this.transactionUrl}/${holdingId}`);
   }
 
   collopsRow(row: HTMLElement) {
