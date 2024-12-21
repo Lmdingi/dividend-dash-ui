@@ -1,0 +1,74 @@
+<form class="px-3" #form="ngForm">
+    <div class="d-flex flex-wrap gap-2">
+        <div class="mb-3" style="width: fit-content;">
+            <label for="opening" class="form-label">Opening</label>
+            <input type="text" class="form-control form-control-sm" id="opening" disabled
+                value="{{transaction.transaction.opening | currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="openingCommission" class="form-label">Opening Commission</label>
+            <input type="text" class="form-control form-control-sm" id="openingCommission" disabled
+                value="{{transaction.transaction.openingCharges | currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="closing" class="form-label">Closing</label>
+            <input type="text" class="form-control form-control-sm" id="closing" disabled
+                value="{{transaction.transaction.closing| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="closingCommission" class="form-label">Closing Commission</label>
+            <input type="text" class="form-control form-control-sm" id="closingCommission" disabled
+                value="{{transaction.transaction.closingCharges| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="closingTotal" class="form-label">Closing Total</label>
+            <input type="text" class="form-control form-control-sm" id="closingTotal" disabled
+                value="{{transaction.transaction.closingTotal| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="dividend" class="form-label">Dividend Amount</label>
+            <input type="text" class="form-control form-control-sm" id="dividend" disabled
+                value="{{transaction.summary.dividend| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="dividendCommission" class="form-label">Dividend Commission</label>
+            <input type="text" class="form-control form-control-sm" id="dividendCommission" disabled
+                value="{{transaction.summary.dividendCharges| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="dividendTotal" class="form-label">Dividend Total</label>
+            <input type="text" class="form-control form-control-sm" id="dividendTotal" disabled
+                value="{{transaction.summary.dividendTotal| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+
+        <div class="mb-3" style="width: fit-content;">
+            <label for="totalCommission" class="form-label">Commission Total</label>
+            <input type="text" class="form-control form-control-sm" id="totalCommission" disabled
+                value="{{transaction.summary.totalCharges| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="gross" class="form-label">Gross</label>
+            <input type="text" class="form-control form-control-sm" id="gross" disabled
+                value="{{transaction.summary.gross| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="net" class="form-label">Net</label>
+            <input type="text" class="form-control form-control-sm" id="net" disabled
+                value="{{transaction.summary.net| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+        <div class="mb-3" style="width: fit-content;">
+            <label for="profit" class="form-label">Profit</label>
+            <input type="text" class="form-control form-control-sm" id="profit" disabled
+                value="{{transaction.summary.profit| currency:'R':'symbol':'1.2-2'}}">
+        </div>
+
+    </div>
+    <div class="d-flex flex-wrap gap-1 justify-content-end">
+        <button type="button" class="btn btn-primary btn-sm" (click)="onEdit(transaction.id)">
+            <i class="bi bi-pencil-square"></i> Edit
+        </button>
+        <button type="button" class="btn btn-danger btn-sm" (click)="onDelete()">
+            <i class="bi bi-trash3"></i> Delete
+        </button>
+    </div>
+</form>

@@ -1,0 +1,44 @@
+<div class="card-body">
+    <form class="px-3" #form="ngForm">
+        <div class="d-flex flex-wrap gap-2">
+            <div class="mb-3" style="width: fit-content;">
+                <label for="name" class="form-label">Name</label>
+                <input type="text" class="form-control form-control-sm" id="name" required name="name"
+                    [(ngModel)]="holding!.name">
+            </div>
+            <div class="mb-3" style="width: fit-content;">
+                <label for="symbol" class="form-label">Symbol</label>
+                <input type="text" class="form-control form-control-sm" id="symbol" required name="symbol"
+                    [(ngModel)]="holding!.symbol">
+            </div>
+            <div class="mb-3" style="width: fit-content;">
+                <label for="opening" class="form-label">Opening</label>
+                <input type="text" class="form-control form-control-sm" id="opening" required name="opening"
+                    [(ngModel)]="holding!.transaction.opening">
+            </div>
+            <div class="mb-3" style="width: fit-content;">
+                <label for="openingCommission" class="form-label">Opening Commission</label>
+                <input type="text" class="form-control form-control-sm" id="openingCommission" name="openingCharges"
+                    [(ngModel)]="holding!.transaction.openingCharges">
+            </div>
+            <div class="mb-3" style="width: fit-content;">
+                <label for="exDate" class="form-label">Ex Date</label>
+                <input type="date" class="form-control form-control-sm" id="exDate" name="exDate"
+                    [(ngModel)]="holding!.summary.exDate">
+            </div>
+            <div class="mb-3" style="width: fit-content;">
+                <label for="dividendDate" class="form-label">Dividend Date</label>
+                <input type="date" class="form-control form-control-sm" id="dividendDate" name="dividendDate"
+                    [(ngModel)]="holding!.summary.dividendDate">
+            </div>
+        </div>
+        <div class="d-flex flex-wrap gap-1 justify-content-end">
+            <button type="button" class="btn btn-primary btn-sm" (click)="onSave()">
+                <i class="bi bi-save"></i> Save
+            </button>
+            <button type="button" class="btn btn-danger btn-sm" (click)="onCancel()">
+                <i class="bi bi-x-lg"></i> Cancel
+            </button>
+        </div>
+    </form>
+</div>
