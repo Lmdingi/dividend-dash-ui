@@ -1,3 +1,4 @@
 export const environment = {
-  apiBaseUrl: 'http://dividend-dash-api.somee.com/api/',
+  production: false,
+  apiBaseUrl: 'https://localhost:7020/api/',
 };
