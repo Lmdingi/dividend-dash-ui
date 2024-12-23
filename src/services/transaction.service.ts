@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Holding } from '../models/holding.model';
@@ -14,8 +14,18 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTransactions(): Observable<Holding[]> {
-    return this.http.get<Holding[]>(this.transactionUrl);
+  getAllTransactions(
+    sortBy?: string,
+    sortDirection?: string
+  ): Observable<Holding[]> {
+    let params = new HttpParams();
+    if (sortBy) {
+      params = params.set('sortBy', sortBy);
+    }
+    if (sortDirection) {
+      params = params.set('sortDirection', sortDirection);
+    }
+    return this.http.get<Holding[]>(this.transactionUrl, { params: params });
   }
 
   getTransactionById(id: string): Observable<Holding> {

@@ -5,7 +5,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { TransactionService } from '../../../services/transaction.service';
 import { type Holding } from '../../../models/holding.model';
 import { type Summary } from '../../../models/summary.model';
@@ -34,7 +34,7 @@ export class AddTransactionComponent {
     private router: Router
   ) {}
 
-  onSave() {
+  onSave(form: NgForm) {
     const transactionSubscription = this.transactionService
       .createTransaction(this.holding)
       .subscribe({
@@ -47,6 +47,8 @@ export class AddTransactionComponent {
         },
       });
 
+    form.reset();
+
     this.transactionService.collopsRow(this.newHoldingForm);
 
     this.destroyRef.onDestroy(() => {
@@ -54,7 +56,8 @@ export class AddTransactionComponent {
     });
   }
 
-  onCancel() {
+  onCancel(form: NgForm) {
+    form.reset();
     this.transactionService.collopsRow(this.newHoldingForm);
     this.router.navigate([this.router.url]).then(() => {});
   }

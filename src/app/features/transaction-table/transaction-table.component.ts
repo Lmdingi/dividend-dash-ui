@@ -45,4 +45,8 @@ export class TransactionTableComponent implements OnInit {
   onAdd(newHoldingForm: HTMLElement): void {
     this.transactionService.collopsRow(newHoldingForm);
   }
+
+  sort(sortBy: string, sortDirection: string) {    
+    this.dataService.updateData(sortBy, sortDirection);
+  }
 }

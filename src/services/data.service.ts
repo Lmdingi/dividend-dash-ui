@@ -15,9 +15,9 @@ export class DataService {
     private destroyRef: DestroyRef
   ) {}
 
-  updateData() {
+  updateData(sortBy?: string, sortDirection?: string) {
     const transactionSubscription = this.transactionService
-      .getAllTransactions()
+      .getAllTransactions(sortBy, sortDirection)
       .subscribe({
         next: (response) => {
           this.dataSource.next(response);

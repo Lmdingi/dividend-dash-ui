@@ -1,5 +1,5 @@
 <div class="card-body">
-    <form class="px-3" #form="ngForm">
+    <form class="px-3" #form="ngForm" (ngSubmit)="onSave(form)">
         <div class="d-flex flex-wrap gap-2">
             <div class="mb-3" style="width: fit-content;">
                 <label for="name" class="form-label">Name</label>
@@ -33,10 +33,10 @@
             </div>
         </div>
         <div class="d-flex flex-wrap gap-1 justify-content-end">
-            <button type="button" class="btn btn-primary btn-sm" (click)="onSave()">
+            <button type="submit" class="btn btn-primary btn-sm" >
                 <i class="bi bi-save"></i> Save
             </button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="onCancel()">
+            <button type="button" class="btn btn-danger btn-sm" (click)="onCancel(form)">
                 <i class="bi bi-x-lg"></i> Cancel
             </button>
         </div>
