@@ -18,6 +18,7 @@ export class TransactionTableComponent implements OnInit {
   data: any;
   holdings: Holding[] = [];
   isHoldingAdd: boolean = false;
+  isAsc: boolean = true;
 
   constructor(
     private dataService: DataService,
@@ -47,8 +48,10 @@ export class TransactionTableComponent implements OnInit {
     this.transactionService.collopsRow(newHoldingForm);
   }
 
-  sort(sortBy: string, sortDirection: string) {
+  sort(sortBy: string) {
+    const sortDirection = this.isAsc ? 'asc' : 'desc';
     this.dataService.updateData(sortBy, sortDirection);
+    this.isAsc = !this.isAsc;
   }
 
   onAddingHolding(isAdded: boolean) {

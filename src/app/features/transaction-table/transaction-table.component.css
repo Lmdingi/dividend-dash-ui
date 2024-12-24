@@ -1,3 +1,13 @@
-.new-holding-success{
-border: 1px solid rgba(42, 56, 46, 0.041);
-    }
+.new-holding-success {
+    border: 1px solid rgba(42, 56, 46, 0.041);
+}
+
+/* .columns {
+    order: 1px solid rgb(42, 56, 46);
+} */
+
+th:hover {
+    background-color: #f8f9fa; /* Light gray background on hover */
+    color: #0d6efd; /* Bootstrap primary blue text color */
+    cursor: pointer; /* Pointer cursor on hover */
+}

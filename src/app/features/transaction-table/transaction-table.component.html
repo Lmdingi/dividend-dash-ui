@@ -23,52 +23,20 @@
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>
-                            Name
-                            <span>
-                                <button type="button" class="btn btn-light" (click)="sort('Name', 'asc')">
-                                    ↑
-                                </button>
-                                <button type="button" class="btn btn-light" (click)="sort('Name', 'desc')">
-                                    ↓
-                                </button>
-                            </span>
+                        <th (click)="sort('Name')">
+                            Name ↑↓
                         </th>
-                        <th>
-                            Symbol
-                            <button type="button" class="btn btn-light" (click)="sort('Symbol', 'asc')">
-                                ↑
-                            </button>
-                            <button type="button" class="btn btn-light" (click)="sort('Symbol', 'desc')">
-                                ↓
-                            </button>
+                        <th (click)="sort('Symbol')">
+                            Symbol ↑↓
                         </th>
-                        <th>
-                            Opening Total
-                            <button type="button" class="btn btn-light" (click)="sort('OpeningTotal', 'asc')">
-                                ↑
-                            </button>
-                            <button type="button" class="btn btn-light" (click)="sort('OpeningTotal', 'desc')">
-                                ↓
-                            </button>
+                        <th (click)="sort('OpeningTotal')">
+                            Opening Total ↑↓
                         </th>
-                        <th>
-                            Ex Date
-                            <button type="button" class="btn btn-light" (click)="sort('ExDate', 'asc')">
-                                ↑
-                            </button>
-                            <button type="button" class="btn btn-light" (click)="sort('ExDate', 'desc')">
-                                ↓
-                            </button>
+                        <th (click)="sort('ExDate')">
+                            Ex Date ↑↓
                         </th>
-                        <th>
-                            Dividend Date
-                            <button type="button" class="btn btn-light" (click)="sort('DividendDate', 'asc')">
-                                ↑
-                            </button>
-                            <button class="btn btn-light" (click)="sort('DividendDate', 'desc')">
-                                ↓
-                            </button>
+                        <th (click)="sort('DividendDate')">
+                            Dividend Date ↑↓
                         </th>
                     </tr>
                 </thead>
