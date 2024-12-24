@@ -17,6 +17,7 @@ import { DataService } from '../../../services/data.service';
 export class TransactionTableComponent implements OnInit {
   data: any;
   holdings: Holding[] = [];
+  isHoldingAdd: boolean = false;
 
   constructor(
     private dataService: DataService,
@@ -46,7 +47,11 @@ export class TransactionTableComponent implements OnInit {
     this.transactionService.collopsRow(newHoldingForm);
   }
 
-  sort(sortBy: string, sortDirection: string) {    
+  sort(sortBy: string, sortDirection: string) {
     this.dataService.updateData(sortBy, sortDirection);
+  }
+
+  onAddingHolding(isAdded: boolean) {
+    this.isHoldingAdd = isAdded;
   }
 }

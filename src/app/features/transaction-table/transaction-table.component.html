@@ -2,13 +2,22 @@
     <div class="card m-5">
         <div class="card-header d-flex justify-content-between">
             <h4>Overview</h4>
+
+            @if(isHoldingAdd){
+            <li
+                class="new-holding-success ps-3 pe-3 list-group-item list-group-item-success d-flex justify-content-between align-items-center">
+                <strong>Well done!</strong> You successfully added a new holding.
+            </li>
+            }
+
             <button class="btn btn-primary" [disabled]="newHoldingForm.style.display? false: true"
                 (click)="onAdd(newHoldingForm)">Add</button>
         </div>
         <div class="card-body">
             <div class="border-bottom" #newHoldingForm style="display: none;">
                 <td colspan="6">
-                    <app-add-transaction [newHoldingForm]="newHoldingForm"></app-add-transaction>
+                    <app-add-transaction [newHoldingForm]="newHoldingForm"
+                        (isSuccessfullyAdd)="onAddingHolding($event)"></app-add-transaction>
                 </td>
             </div>
             <table class="table table-striped table-hover">
