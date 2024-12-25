@@ -4,50 +4,42 @@
             <h4>{{holding.name}} | {{holding.symbol}}</h4>
         </div>
         <div class="card-body">
+            @if(errorMessages.length > 0){
+            <div class="alert alert-dismissible alert-danger">
+                <strong>Oh snap!</strong>
+                @for (errorMessage of errorMessages; track errorMessage) {
+                <p class="form-error-message">{{errorMessage}}</p>
+                }
+                <p>Change a few things up and try submitting again.</p>
+            </div>
+            }
             <form class="px-3" #form="ngForm">
                 <div class="d-flex flex-wrap gap-2">
                     <div class="mb-3" style="width: fit-content;">
-                        <label for="opening" class="form-label">Opening</label>
-                        <input type="text" class="form-control form-control-sm" id="opening" required name="opening"
-                            [(ngModel)]="holding.transaction.opening">
-                    </div>
-                    <div class="mb-3" style="width: fit-content;">
-                        <label for="openingCommission" class="form-label">Opening Commission</label>
-                        <input type="text" class="form-control form-control-sm" id="openingCommission"
-                            name="openingCharges" [(ngModel)]="holding.transaction.openingCharges">
-                    </div>
-                    <div class="mb-3" style="width: fit-content;">
-                        <label for="exDate" class="form-label">Ex Date</label>
-                        <input type="date" class="form-control form-control-sm" id="exDate" name="exDate"
-                            [(ngModel)]="holding.summary.exDate">
-                    </div>
-                    <div class="mb-3" style="width: fit-content;">
                         <label for="closing" class="form-label">Closing</label>
-                        <input type="text" class="form-control form-control-sm" id="closing" name="closing"
-                            [(ngModel)]="holding.transaction.closing">
+                        <input #Closing="ngModel" type="number" class="form-control form-control-sm" id="closing"
+                            name="closing" [(ngModel)]="holding.transaction.closing">
                     </div>
+
                     <div class="mb-3" style="width: fit-content;">
                         <label for="closingCommission" class="form-label">Closing Commission</label>
-                        <input type="text" class="form-control form-control-sm" id="closingCommission"
+                        <input type="number" class="form-control form-control-sm" id="closingCommission"
                             name="closingCharges" [(ngModel)]="holding.transaction.closingCharges">
                     </div>
 
                     <div class="mb-3" style="width: fit-content;">
-                        <label for="dividendDate" class="form-label">Dividend Date</label>
-                        <input type="date" class="form-control form-control-sm" id="dividendDate" name="dividendDate"
-                            [(ngModel)]="holding.summary.dividendDate">
-                    </div>
-                    <div class="mb-3" style="width: fit-content;">
                         <label for="dividend" class="form-label">Dividend Amount</label>
-                        <input type="text" class="form-control form-control-sm" id="dividend" name="dividend"
+                        <input type="number" class="form-control form-control-sm" id="dividend" name="dividend"
                             [(ngModel)]="holding.summary.dividend">
                     </div>
+
                     <div class="mb-3" style="width: fit-content;">
                         <label for="dividendCommission" class="form-label">Dividend Commission</label>
-                        <input type="text" class="form-control form-control-sm" id="dividendCommission"
+                        <input type="number" class="form-control form-control-sm" id="dividendCommission"
                             name="dividendCharges" [(ngModel)]="holding.summary.dividendCharges">
                     </div>
                 </div>
+
                 <div class="d-flex flex-wrap gap-1 justify-content-end">
                     <button type="button" class="btn btn-primary btn-sm" (click)="onSave()">Save</button>
                     <button type="button" class="btn btn-danger btn-sm" (click)="onCancel()">Cancel</button>

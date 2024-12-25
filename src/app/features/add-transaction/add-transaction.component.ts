@@ -44,7 +44,6 @@ export class AddTransactionComponent {
       .createTransaction(this.holding)
       .subscribe({
         next: () => {
-          //popup
           this.isAdded = true;
           this.isSuccessfullyAdd.emit(this.isAdded);
           setTimeout(() => {
@@ -59,8 +58,6 @@ export class AddTransactionComponent {
         error: (err) => {
           for (const errors in err.error.errors) {
             for (const errorMessage of err.error.errors[errors]) {
-              console.log(errorMessage);
-
               this.errorMessages.push(errorMessage);
             }
           }
@@ -78,6 +75,5 @@ export class AddTransactionComponent {
     this.isSuccessfullyAdd.emit(this.isAdded);
     form.reset();
     this.transactionService.collopsRow(this.newHoldingForm);
-    // this.router.navigate([this.router.url]).then(() => {});
   }
 }

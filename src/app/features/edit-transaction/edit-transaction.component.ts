@@ -16,6 +16,9 @@ import { Subscription } from 'rxjs';
 })
 export class EditTransactionComponent implements OnInit, OnDestroy {
   holding: Holding = {
+    id: '',
+    name: '',
+    symbol: '',
     summary: {} as Summary,
     transaction: {} as Transaction,
   } as Holding;
@@ -23,6 +26,7 @@ export class EditTransactionComponent implements OnInit, OnDestroy {
   isAlert = false;
   routeSubscription?: Subscription;
   transactionSubscription?: Subscription;
+  errorMessages: string[] = [];
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -49,14 +53,7 @@ export class EditTransactionComponent implements OnInit, OnDestroy {
   }
 
   onSave() {
-    if (!this.isAlert) {
-      alert(
-        "Your changes will be saved and cannot be undone. Click 'Save' again to confirm."
-      );
-      this.isAlert = true;
-      return;
-    }
-
+    this.errorMessages = [];
     this.transactionSubscription = this.transactionService
       .updateTransaction(this.holding)
       .subscribe({
@@ -64,8 +61,13 @@ export class EditTransactionComponent implements OnInit, OnDestroy {
           this.router.navigate(['/']);
         },
         error: (err) => {
-          // make popup
-          console.error(err);
+          console.log(err);
+
+          for (const errors in err.error.errors) {
+            for (const errorMessage of err.error.errors[errors]) {
+              this.errorMessages.push(errorMessage);
+            }
+          }
         },
       });
   }
