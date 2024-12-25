@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Holding } from '../models/holding.model';
 import { environment } from '../environments/environment';
+import { Totals } from '../models/totals';
 
 @Injectable({
   providedIn: 'root',
@@ -30,6 +31,10 @@ export class TransactionService {
 
   getTransactionById(id: string): Observable<Holding> {
     return this.http.get<Holding>(`${this.transactionUrl}/${id}`);
+  }
+
+  getTotals(): Observable<Totals> {
+    return this.http.get<Totals>(`${this.transactionUrl}/get-totals`);
   }
 
   updateTransaction(holding: Holding): Observable<Holding> {

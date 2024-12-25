@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TransactionDetailComponent } from '../transaction-detail/transaction-detail.component';
 import { AddTransactionComponent } from '../add-transaction/add-transaction.component';
 import { DataService } from '../../../services/data.service';
+import { Totals } from '../../../models/totals';
 
 @Component({
   selector: 'app-transaction-table',
@@ -17,6 +18,7 @@ import { DataService } from '../../../services/data.service';
 export class TransactionTableComponent implements OnInit {
   data: any;
   holdings: Holding[] = [];
+  totals: Totals = {} as Totals;
   isHoldingAdd: boolean = false;
   isAsc: boolean = true;
 
@@ -33,10 +35,17 @@ export class TransactionTableComponent implements OnInit {
       }
     );
 
+    const totalsSubscription = this.dataService.totalsData.subscribe(
+      (updatedTotals) => {
+        this.totals = updatedTotals;
+      }
+    );
+
     this.dataService.updateData();
 
     this.destroyRef.onDestroy(() => {
       dataSubscription.unsubscribe();
+      totalsSubscription.unsubscribe();
     });
   }
 

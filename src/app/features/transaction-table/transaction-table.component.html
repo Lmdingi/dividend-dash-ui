@@ -14,6 +14,56 @@
                 (click)="onAdd(newHoldingForm)">Add</button>
         </div>
         <div class="card-body">
+            <div class="d-flex gap-2">
+                <div>
+                    <label class="form-label mt-4"><b>Portfolio</b></label>
+                    <div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.portfolio| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div>
+                    <label class="form-label mt-4"><b>Commission</b></label>
+                    <div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.commission| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div>
+                    <label class="form-label mt-4"><b>Profit</b></label>
+                    <div>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.profit| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
+            <div class="d-flex gap-2">
+                <!-- <div style="width: fit-content;">
+                    <fieldset disabled="">
+                        <label class="form-label" for="disabledInput">Total Portfolio Value</label>
+                        <input value="R1020.00" class="form-control" id="disabledInput" type="text"
+                            placeholder="Disabled input here..." disabled="">
+                    </fieldset>
+                </div>
+                <div style="width: fit-content;">
+                    <fieldset disabled="">
+                        <label class="form-label" for="disabledInput">Commission</label>
+                        <input value="R1020.00" class="form-control" id="disabledInput" type="text"
+                            placeholder="Disabled input here..." disabled="">
+                    </fieldset>
+                </div> -->
+            </div>
+
             <div class="border-bottom" #newHoldingForm style="display: none;">
                 <td colspan="6">
                     <app-add-transaction [newHoldingForm]="newHoldingForm"
