@@ -112,6 +112,26 @@
                     }
                 </tbody>
             </table>
+
+            @if(list.length > 0){
+            <div [ngClass]="newHoldingForm.style.display? '': 'disabled'">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item" [ngClass]="pageNumber == 1? 'disabled': ''" (click)="getPrevPage()">
+                        <a class="page-link">&laquo;</a>
+                    </li>
+
+                    @for (item of list; track $index) {
+                    <li class="page-item" [ngClass]="item == pageNumber? 'active': ''" (click)="getPage(item)">
+                        <a class="page-link">{{item}}</a>
+                    </li>
+                    }
+
+                    <li class="page-item" [ngClass]="pageNumber == list.length? 'disabled': ''" (click)="getNextPage()">
+                        <a class="page-link">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+            }
         </div>
     </div>
 </div>

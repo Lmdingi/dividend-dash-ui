@@ -4,4 +4,5 @@ export interface Totals {
   incomeCommission: number;
   profit: number;
   net: number;
+  allHoldingsCount: number;
 }

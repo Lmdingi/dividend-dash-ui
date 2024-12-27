@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { DataService } from '../../../services/data.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -15,12 +16,14 @@ import { DataService } from '../../../services/data.service';
 })
 export class TransactionDetailComponent {
   @Input() transaction: Holding = {} as Holding;
+  private listLastPage: number = 0;
 
   constructor(
     private transactionService: TransactionService,
     private dataService: DataService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private destroyRef: DestroyRef
   ) {}
 
   onEdit(id?: string): void {
@@ -32,17 +35,32 @@ export class TransactionDetailComponent {
   }
 
   onDelete(): void {
-    this.transactionService
+    let listSubscription: Subscription;
+    const deleteSubscription = this.transactionService
       .deleteTransactionById(this.transaction.id)
       .subscribe({
         next: () => {
-          this.dataService.updateData();
+          listSubscription = this.dataService.listCount.subscribe(
+            (updatedList) => {
+              this.listLastPage = updatedList.length;
+            }
+          );
+
+          this.dataService.updateData(
+            undefined,
+            undefined,
+            this.listLastPage,
+            undefined
+          );
         },
         error: (err) => {
           console.error(err);
         },
       });
 
-    
+    this.destroyRef.onDestroy(() => {
+      deleteSubscription.unsubscribe();
+      listSubscription.unsubscribe();
+    });
   }
 }

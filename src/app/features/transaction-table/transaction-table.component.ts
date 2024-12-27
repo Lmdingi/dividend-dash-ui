@@ -22,6 +22,10 @@ export class TransactionTableComponent implements OnInit {
   isHoldingAdd: boolean = false;
   isAsc: boolean = true;
   totalsDisplay: string = 'd-flex';
+  pageNumber = 1;
+  pageSize = 4;
+  list: number[] = [];
+  private listLastPage: number = 0;
 
   constructor(
     private dataService: DataService,
@@ -42,11 +46,23 @@ export class TransactionTableComponent implements OnInit {
       }
     );
 
-    this.dataService.updateData();
+    const listSubscription = this.dataService.listCount.subscribe(
+      (updatedList) => {
+        this.list = updatedList;
+      }
+    );
+
+    this.dataService.updateData(
+      undefined,
+      undefined,
+      this.pageNumber,
+      this.pageSize
+    );
 
     this.destroyRef.onDestroy(() => {
       dataSubscription.unsubscribe();
       totalsSubscription.unsubscribe();
+      listSubscription.unsubscribe()
     });
   }
 
@@ -61,8 +77,19 @@ export class TransactionTableComponent implements OnInit {
 
   sort(sortBy: string) {
     const sortDirection = this.isAsc ? 'asc' : 'desc';
-    this.dataService.updateData(sortBy, sortDirection);
+
+    const listSubscription = this.dataService.listCount.subscribe(
+      (updatedList) => {
+        this.listLastPage = updatedList.length;
+      }
+    );
+
+    this.dataService.updateData(sortBy, sortDirection, this.listLastPage,undefined);
     this.isAsc = !this.isAsc;
+
+    this.destroyRef.onDestroy(() => {
+      listSubscription.unsubscribe()
+    });
   }
 
   onAddingHolding(isAdded: boolean) {
@@ -71,5 +98,42 @@ export class TransactionTableComponent implements OnInit {
 
   toggleTotalsDisplay(display: string) {
     this.totalsDisplay = display;
+  }
+
+  getPage(pageNumber: number) {
+    this.pageNumber = pageNumber;
+
+    this.dataService.updateData(
+      undefined,
+      undefined,
+      pageNumber,
+      this.pageSize
+    );
+  }
+
+  getPrevPage() {
+    if (this.pageNumber - 1 > 0) {
+      this.pageNumber--;
+
+      this.dataService.updateData(
+        undefined,
+        undefined,
+        this.pageNumber,
+        this.pageSize
+      );
+    }
+  }
+
+  getNextPage() {
+    if (this.pageNumber + 1 <= this.list.length) {
+      this.pageNumber++;
+
+      this.dataService.updateData(
+        undefined,
+        undefined,
+        this.pageNumber,
+        this.pageSize
+      );
+    }
   }
 }

@@ -17,15 +17,27 @@ export class TransactionService {
 
   getAllTransactions(
     sortBy?: string,
-    sortDirection?: string
+    sortDirection?: string,
+    pageNumber?: number,
+    pageSize: number = 4
   ): Observable<Holding[]> {
     let params = new HttpParams();
+
     if (sortBy) {
       params = params.set('sortBy', sortBy);
     }
+
     if (sortDirection) {
       params = params.set('sortDirection', sortDirection);
     }
+
+    if (pageNumber) {
+      params = params.set('pageNumber', String(pageNumber));
+    }
+    if (pageSize) {
+      params = params.set('pageSize', String(pageSize));
+    }
+
     return this.http.get<Holding[]>(this.transactionUrl, { params: params });
   }
 

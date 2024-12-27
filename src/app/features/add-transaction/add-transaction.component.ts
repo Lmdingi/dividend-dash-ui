@@ -31,6 +31,7 @@ export class AddTransactionComponent {
   @Output() isSuccessfullyAdd = new EventEmitter<boolean>();
   @Output() totalsDisplay = new EventEmitter<string>();
   private isAdded: boolean = false;
+  private listLastPage: number = 0;
 
   constructor(
     private transactionService: TransactionService,
@@ -41,6 +42,13 @@ export class AddTransactionComponent {
 
   onSubmit(form: NgForm) {
     this.errorMessages = [];
+
+    const listSubscription = this.dataService.listCount.subscribe(
+      (updatedList) => {
+        this.listLastPage = updatedList.length;
+      }
+    );
+
     const transactionSubscription = this.transactionService
       .createTransaction(this.holding)
       .subscribe({
@@ -53,7 +61,12 @@ export class AddTransactionComponent {
             this.isSuccessfullyAdd.emit(this.isAdded);
           }, 3000);
 
-          this.dataService.updateData();
+          this.dataService.updateData(
+            undefined,
+            undefined,
+            this.listLastPage,
+            undefined
+          );
           form.reset();
           this.transactionService.collopsRow(this.newHoldingForm);
         },
@@ -68,6 +81,7 @@ export class AddTransactionComponent {
 
     this.destroyRef.onDestroy(() => {
       transactionSubscription.unsubscribe();
+      listSubscription.unsubscribe();
     });
   }
 

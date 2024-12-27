@@ -10,6 +10,8 @@ import { Totals } from '../models/totals';
 export class DataService {
   private dataSource = new BehaviorSubject<Holding[]>([]);
   private totalsSource = new BehaviorSubject<Totals>({} as Totals);
+  private listCountSource = new BehaviorSubject<number[]>([]);
+  listCount = this.listCountSource.asObservable();
   currentData = this.dataSource.asObservable();
   totalsData = this.totalsSource.asObservable();
 
@@ -18,9 +20,14 @@ export class DataService {
     private destroyRef: DestroyRef
   ) {}
 
-  updateData(sortBy?: string, sortDirection?: string) {
+  updateData(
+    sortBy?: string,
+    sortDirection?: string,
+    pageNumber?: number,
+    pageSize?: number
+  ) {
     const transactionSubscription = this.transactionService
-      .getAllTransactions(sortBy, sortDirection)
+      .getAllTransactions(sortBy, sortDirection, pageNumber, pageSize)
       .subscribe({
         next: (response) => {
           this.dataSource.next(response);
@@ -30,8 +37,15 @@ export class DataService {
         },
       });
 
-    const totals = this.transactionService.getTotals().subscribe({
+    const totalsSubscription = this.transactionService.getTotals().subscribe({
       next: (response) => {
+        const count = Math.ceil(response.allHoldingsCount / 4);
+        const list: number[] = [];
+        for (let i = 0; i < count; i++) {
+          list.push(i + 1);
+        }
+
+        this.listCountSource.next(list);
         this.totalsSource.next(response);
       },
       error: (err) => {
@@ -41,6 +55,7 @@ export class DataService {
 
     this.destroyRef.onDestroy(() => {
       transactionSubscription.unsubscribe();
+      totalsSubscription.unsubscribe();
     });
   }
 }
