@@ -1,5 +1,7 @@
 export interface Totals {
   portfolio: number;
-  commission: number;
+  openingCommission: number;
+  incomeCommission: number;
   profit: number;
+  net: number;
 }

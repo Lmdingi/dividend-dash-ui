@@ -29,6 +29,7 @@ export class AddTransactionComponent {
   @Input() newHoldingForm!: HTMLElement;
   errorMessages: string[] = [];
   @Output() isSuccessfullyAdd = new EventEmitter<boolean>();
+  @Output() totalsDisplay = new EventEmitter<string>();
   private isAdded: boolean = false;
 
   constructor(
@@ -45,6 +46,7 @@ export class AddTransactionComponent {
       .subscribe({
         next: () => {
           this.isAdded = true;
+          this.totalsDisplay.emit('d-flex');
           this.isSuccessfullyAdd.emit(this.isAdded);
           setTimeout(() => {
             this.isAdded = false;
@@ -72,6 +74,7 @@ export class AddTransactionComponent {
   onCancel(form: NgForm) {
     this.errorMessages = [];
     this.isAdded = false;
+    this.totalsDisplay.emit('d-flex');
     this.isSuccessfullyAdd.emit(this.isAdded);
     form.reset();
     this.transactionService.collopsRow(this.newHoldingForm);

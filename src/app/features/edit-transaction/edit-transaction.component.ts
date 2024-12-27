@@ -15,6 +15,12 @@ import { Subscription } from 'rxjs';
   styleUrl: './edit-transaction.component.css',
 })
 export class EditTransactionComponent implements OnInit, OnDestroy {
+  newValues = {
+    closing: 0,
+    closingCharges: 0,
+    dividend: 0,
+    dividendCharges: 0,
+  };
   holding: Holding = {
     id: '',
     name: '',
@@ -54,6 +60,17 @@ export class EditTransactionComponent implements OnInit, OnDestroy {
 
   onSave() {
     this.errorMessages = [];
+
+    if (this.newValues.closing > 0) {
+      this.holding.transaction.closing = this.newValues.closing;
+      this.holding.transaction.closingCharges = this.newValues.closingCharges;
+    }
+
+    if (this.newValues.dividend > 0) {
+      this.holding.summary.dividend = this.newValues.dividend;
+      this.holding.summary.dividendCharges = this.newValues.dividend;
+    }
+
     this.transactionSubscription = this.transactionService
       .updateTransaction(this.holding)
       .subscribe({

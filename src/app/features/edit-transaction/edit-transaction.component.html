@@ -18,30 +18,36 @@
                     <div class="mb-3" style="width: fit-content;">
                         <label for="closing" class="form-label">Closing</label>
                         <input #Closing="ngModel" type="number" class="form-control form-control-sm" id="closing"
-                            name="closing" [(ngModel)]="holding.transaction.closing">
+                            name="closing" [(ngModel)]="newValues.closing">
                     </div>
 
                     <div class="mb-3" style="width: fit-content;">
                         <label for="closingCommission" class="form-label">Closing Commission</label>
                         <input type="number" class="form-control form-control-sm" id="closingCommission"
-                            name="closingCharges" [(ngModel)]="holding.transaction.closingCharges">
+                            name="closingCharges" [(ngModel)]="newValues.closingCharges"
+                            [disabled]="(newValues.closing <= 0)"
+                            [value]="newValues.closing <= 0? 0: newValues.closingCharges">
                     </div>
 
                     <div class="mb-3" style="width: fit-content;">
                         <label for="dividend" class="form-label">Dividend Amount</label>
                         <input type="number" class="form-control form-control-sm" id="dividend" name="dividend"
-                            [(ngModel)]="holding.summary.dividend">
+                            [(ngModel)]="newValues.dividend">
                     </div>
 
                     <div class="mb-3" style="width: fit-content;">
                         <label for="dividendCommission" class="form-label">Dividend Commission</label>
                         <input type="number" class="form-control form-control-sm" id="dividendCommission"
-                            name="dividendCharges" [(ngModel)]="holding.summary.dividendCharges">
+                            name="dividendCharges" [(ngModel)]="newValues.dividendCharges"
+                            [disabled]="(newValues.dividend <= 0)"
+                            [value]="newValues.dividend <= 0? 0: newValues.dividendCharges">
                     </div>
                 </div>
 
                 <div class="d-flex flex-wrap gap-1 justify-content-end">
-                    <button type="button" class="btn btn-primary btn-sm" (click)="onSave()">Save</button>
+                    <button type="button" class="btn btn-primary btn-sm"
+                        [disabled]="((newValues.closing <= 0) && (newValues.dividend <= 0))"
+                        (click)="onSave()">Save</button>
                     <button type="button" class="btn btn-danger btn-sm" (click)="onCancel()">Cancel</button>
                 </div>
             </form>

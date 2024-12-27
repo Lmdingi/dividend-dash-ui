@@ -6,5 +6,4 @@ import { AddTransactionComponent } from './features/add-transaction/add-transact
 export const routes: Routes = [
   { path: '', component: TransactionTableComponent },
   { path: 'edit', component: EditTransactionComponent },
-  // { path: 'add', component: AddTransactionComponent },
 ];

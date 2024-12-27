@@ -21,6 +21,7 @@ export class TransactionTableComponent implements OnInit {
   totals: Totals = {} as Totals;
   isHoldingAdd: boolean = false;
   isAsc: boolean = true;
+  totalsDisplay: string = 'd-flex';
 
   constructor(
     private dataService: DataService,
@@ -54,6 +55,7 @@ export class TransactionTableComponent implements OnInit {
   }
 
   onAdd(newHoldingForm: HTMLElement): void {
+    this.totalsDisplay = 'd-none';
     this.transactionService.collopsRow(newHoldingForm);
   }
 
@@ -65,5 +67,9 @@ export class TransactionTableComponent implements OnInit {
 
   onAddingHolding(isAdded: boolean) {
     this.isHoldingAdd = isAdded;
+  }
+
+  toggleTotalsDisplay(display: string) {
+    this.totalsDisplay = display;
   }
 }
