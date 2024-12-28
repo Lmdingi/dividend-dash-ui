@@ -16,9 +16,9 @@ export class TransactionService {
   constructor(private http: HttpClient) {}
 
   getAllTransactions(
-    sortBy?: string,
-    sortDirection?: string,
-    pageNumber?: number,
+    sortBy: string = 'ExDate',
+    sortDirection: string = 'asc',
+    pageNumber: number = 1,
     pageSize: number = 4
   ): Observable<Holding[]> {
     let params = new HttpParams();
