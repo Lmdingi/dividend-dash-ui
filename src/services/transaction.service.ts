@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Holding } from '../models/holding.model';
 import { environment } from '../environments/environment';
+import { Totals } from '../models/totals';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +15,38 @@ export class TransactionService {
 
   constructor(private http: HttpClient) {}
 
-  getAllTransactions(): Observable<Holding[]> {
-    return this.http.get<Holding[]>(this.transactionUrl);
+  getAllTransactions(
+    sortBy: string = 'ExDate',
+    sortDirection: string = 'asc',
+    pageNumber: number = 1,
+    pageSize: number = 4
+  ): Observable<Holding[]> {
+    let params = new HttpParams();
+
+    if (sortBy) {
+      params = params.set('sortBy', sortBy);
+    }
+
+    if (sortDirection) {
+      params = params.set('sortDirection', sortDirection);
+    }
+
+    if (pageNumber) {
+      params = params.set('pageNumber', String(pageNumber));
+    }
+    if (pageSize) {
+      params = params.set('pageSize', String(pageSize));
+    }
+
+    return this.http.get<Holding[]>(this.transactionUrl, { params: params });
   }
 
   getTransactionById(id: string): Observable<Holding> {
     return this.http.get<Holding>(`${this.transactionUrl}/${id}`);
+  }
+
+  getTotals(): Observable<Totals> {
+    return this.http.get<Totals>(`${this.transactionUrl}/get-totals`);
   }
 
   updateTransaction(holding: Holding): Observable<Holding> {

@@ -1,42 +1,94 @@
+@if(errorMessages.length > 0){
+<div class="alert alert-dismissible alert-danger">
+    <strong>Oh snap!</strong>
+    @for (errorMessage of errorMessages; track errorMessage) {
+    <p class="form-error-message">{{errorMessage}}</p>
+    }
+    <p>Change a few things up and try submitting again.</p>
+</div>
+}
+
 <div class="card-body">
-    <form class="px-3" #form="ngForm">
+    <form class="px-3" #form="ngForm" (ngSubmit)="onSubmit(form)">
         <div class="d-flex flex-wrap gap-2">
             <div class="mb-3" style="width: fit-content;">
-                <label for="name" class="form-label">Name</label>
-                <input type="text" class="form-control form-control-sm" id="name" required name="name"
-                    [(ngModel)]="holding!.name">
+                <label for="name" class="form-label">Name*</label>
+                <input required #holdingName="ngModel" type="text" class="form-control form-control-sm" id="name"
+                    name="name" [(ngModel)]="holding!.name">
+
+                @if(holdingName.invalid && (holdingName.touched || holdingName.dirty)){
+                @if(holdingName.errors?.["required"]){
+                <div class="text-danger form-error-message">Name is required.</div>
+                }
+                }
             </div>
+
             <div class="mb-3" style="width: fit-content;">
-                <label for="symbol" class="form-label">Symbol</label>
-                <input type="text" class="form-control form-control-sm" id="symbol" required name="symbol"
-                    [(ngModel)]="holding!.symbol">
+                <label for="symbol" class="form-label">Symbol*</label>
+                <input required #holdingSymbol="ngModel" type="text" class="form-control form-control-sm" id="symbol"
+                    name="symbol" [(ngModel)]="holding!.symbol">
+
+                @if(holdingSymbol.invalid && (holdingSymbol.touched || holdingSymbol.dirty)){
+                @if(holdingSymbol.errors?.["required"]){
+                <div class="text-danger form-error-message">Symbol is required.</div>
+                }
+                }
             </div>
+
             <div class="mb-3" style="width: fit-content;">
-                <label for="opening" class="form-label">Opening</label>
-                <input type="text" class="form-control form-control-sm" id="opening" required name="opening"
-                    [(ngModel)]="holding!.transaction.opening">
+                <label for="opening" class="form-label">Opening*</label>
+                <input required #holdingOpening="ngModel" type="number" class="form-control form-control-sm"
+                    id="opening" name="opening" [(ngModel)]="holding!.transaction.opening">
+
+                @if(holdingOpening.invalid && (holdingOpening.touched || holdingOpening.dirty)){
+                @if(holdingOpening.errors?.["required"]){
+                <div class="text-danger form-error-message">Opening is required.</div>
+                }
+                }
             </div>
+
             <div class="mb-3" style="width: fit-content;">
-                <label for="openingCommission" class="form-label">Opening Commission</label>
-                <input type="text" class="form-control form-control-sm" id="openingCommission" name="openingCharges"
-                    [(ngModel)]="holding!.transaction.openingCharges">
+                <label for="openingCommission" class="form-label">Opening Commission*</label>
+                <input required #OpeningCommission="ngModel" type="number" class="form-control form-control-sm"
+                    id="openingCommission" name="openingCharges" [(ngModel)]="holding!.transaction.openingCharges">
+
+                @if(OpeningCommission.invalid && (OpeningCommission.touched || OpeningCommission.dirty)){
+                @if(OpeningCommission.errors?.["required"]){
+                <div class="text-danger form-error-message">Opening commission is required.</div>
+                }
+                }
             </div>
+
             <div class="mb-3" style="width: fit-content;">
-                <label for="exDate" class="form-label">Ex Date</label>
-                <input type="date" class="form-control form-control-sm" id="exDate" name="exDate"
-                    [(ngModel)]="holding!.summary.exDate">
+                <label for="exDate" class="form-label">Ex-Dividend Date*</label>
+                <input required #ExDate="ngModel" type="date" class="form-control form-control-sm" id="exDate"
+                    name="exDate" [(ngModel)]="holding!.summary.exDate">
+
+                @if(ExDate.invalid && (ExDate.touched || ExDate.dirty)){
+                @if(ExDate.errors?.["required"]){
+                <div class="text-danger form-error-message">Ex-date is required.</div>
+                }
+                }
             </div>
+
             <div class="mb-3" style="width: fit-content;">
-                <label for="dividendDate" class="form-label">Dividend Date</label>
-                <input type="date" class="form-control form-control-sm" id="dividendDate" name="dividendDate"
-                    [(ngModel)]="holding!.summary.dividendDate">
+                <label for="dividendDate" class="form-label">Dividend Date*</label>
+                <input required #DividendDate="ngModel" type="date" class="form-control form-control-sm"
+                    id="dividendDate" name="dividendDate" [(ngModel)]="holding!.summary.dividendDate">
+
+                @if(DividendDate.invalid && (DividendDate.touched || DividendDate.dirty)){
+                @if(DividendDate.errors?.["required"]){
+                <div class="text-danger form-error-message">Dividend date is required.</div>
+                }
+                }
             </div>
         </div>
+
         <div class="d-flex flex-wrap gap-1 justify-content-end">
-            <button type="button" class="btn btn-primary btn-sm" (click)="onSave()">
-                <i class="bi bi-save"></i> Save
+            <button type="submit" class="btn btn-success btn-sm" [disabled]="form.invalid">
+                <i class="bi bi-save"></i> Submit
             </button>
-            <button type="button" class="btn btn-danger btn-sm" (click)="onCancel()">
+            <button type="button" class="btn btn-danger btn-sm" (click)="onCancel(form)">
                 <i class="bi bi-x-lg"></i> Cancel
             </button>
         </div>

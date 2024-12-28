@@ -2,23 +2,91 @@
     <div class="card m-5">
         <div class="card-header d-flex justify-content-between">
             <h4>Overview</h4>
+
+            @if(isHoldingAdd){
+            <li
+                class="new-holding-success ps-3 pe-3 list-group-item list-group-item-success d-flex justify-content-between align-items-center">
+                <strong>Well done!</strong> You successfully added a new holding.
+            </li>
+            }
+
             <button class="btn btn-primary" [disabled]="newHoldingForm.style.display? false: true"
                 (click)="onAdd(newHoldingForm)">Add</button>
         </div>
         <div class="card-body">
+            <div [class]="totalsDisplay" class="gap-2">
+                <div>
+                    <label class="form-label"><b>Portfolio</b></label>
+                    <div>
+                        <div class="input-group">
+                            <span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.portfolio| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div>
+                    <label class="form-label"><b>Commissions</b></label>
+                    <div>
+                        <div class="input-group mb-1">
+                            <span class="input-group-text"><i>opening</i></span><span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.openingCommission| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-group">
+                            <span class="input-group-text"><i>income</i></span><span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.incomeCommission| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div>
+                    <label class="form-label"><b>Net</b></label>
+                    <div>
+                        <div class="input-group">
+                            <span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.net| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div>
+                    <label class="form-label"><b>Profit</b></label>
+                    <div>
+                        <div class="input-group">
+                            <span class="input-group-text">R</span>
+                            <span class="input-group-text">{{totals.profit| number: '1.2-2' }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr [class]="totalsDisplay">
+
             <div class="border-bottom" #newHoldingForm style="display: none;">
                 <td colspan="6">
-                    <app-add-transaction [newHoldingForm]="newHoldingForm"></app-add-transaction>
+                    <app-add-transaction [newHoldingForm]="newHoldingForm" (totalsDisplay)="toggleTotalsDisplay($event)"
+                        (isSuccessfullyAdd)="onAddingHolding($event)"></app-add-transaction>
                 </td>
             </div>
             <table class="table table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Symbol</th>
-                        <th>Opening Total</th>
-                        <th>Ex Date</th>
-                        <th>Dividend Date</th>
+                        <th (click)="sort('Name')">
+                            Name ↑↓
+                        </th>
+                        <th (click)="sort('Symbol')">
+                            Symbol ↑↓
+                        </th>
+                        <th (click)="sort('OpeningTotal')">
+                            Opening Total ↑↓
+                        </th>
+                        <th (click)="sort('ExDate')">
+                            Ex Date ↑↓
+                        </th>
+                        <th (click)="sort('DividendDate')">
+                            Dividend Date ↑↓
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,6 +112,26 @@
                     }
                 </tbody>
             </table>
+
+            @if(list.length > 0){
+            <div [ngClass]="newHoldingForm.style.display? '': 'disabled'">
+                <ul class="pagination pagination-sm">
+                    <li class="page-item" [ngClass]="pageNumber == 1? 'disabled': ''" (click)="getPrevPage()">
+                        <a class="page-link">&laquo;</a>
+                    </li>
+
+                    @for (item of list; track $index) {
+                    <li class="page-item" [ngClass]="item == pageNumber? 'active': ''" (click)="getPage(item)">
+                        <a class="page-link">{{item}}</a>
+                    </li>
+                    }
+
+                    <li class="page-item" [ngClass]="pageNumber == list.length? 'disabled': ''" (click)="getNextPage()">
+                        <a class="page-link">&raquo;</a>
+                    </li>
+                </ul>
+            </div>
+            }
         </div>
     </div>
 </div>

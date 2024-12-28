@@ -2,10 +2,11 @@ import {
   Component,
   DestroyRef,
   ElementRef,
+  EventEmitter,
   Input,
   Output,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, NgForm } from '@angular/forms';
 import { TransactionService } from '../../../services/transaction.service';
 import { type Holding } from '../../../models/holding.model';
 import { type Summary } from '../../../models/summary.model';
@@ -26,6 +27,11 @@ export class AddTransactionComponent {
     transaction: {} as Transaction,
   } as Holding;
   @Input() newHoldingForm!: HTMLElement;
+  errorMessages: string[] = [];
+  @Output() isSuccessfullyAdd = new EventEmitter<boolean>();
+  @Output() totalsDisplay = new EventEmitter<string>();
+  private isAdded: boolean = false;
+  private listLastPage: number = 0;
 
   constructor(
     private transactionService: TransactionService,
@@ -34,28 +40,57 @@ export class AddTransactionComponent {
     private router: Router
   ) {}
 
-  onSave() {
+  onSubmit(form: NgForm) {
+    this.errorMessages = [];
+
+    const listSubscription = this.dataService.listCount.subscribe(
+      (updatedList) => {
+        this.listLastPage = updatedList.length;
+      }
+    );
+
     const transactionSubscription = this.transactionService
       .createTransaction(this.holding)
       .subscribe({
         next: () => {
-          //popup
-          this.dataService.updateData();
+          this.isAdded = true;
+          this.totalsDisplay.emit('d-flex');
+          this.isSuccessfullyAdd.emit(this.isAdded);
+          setTimeout(() => {
+            this.isAdded = false;
+            this.isSuccessfullyAdd.emit(this.isAdded);
+          }, 3000);
+
+          this.dataService.updateData(
+            undefined,
+            undefined,
+            this.listLastPage,
+            undefined
+          );
+          form.reset();
+          this.transactionService.collopsRow(this.newHoldingForm);
         },
         error: (err) => {
-          console.error(err);
+          for (const errors in err.error.errors) {
+            for (const errorMessage of err.error.errors[errors]) {
+              this.errorMessages.push(errorMessage);
+            }
+          }
         },
       });
 
-    this.transactionService.collopsRow(this.newHoldingForm);
-
     this.destroyRef.onDestroy(() => {
       transactionSubscription.unsubscribe();
+      listSubscription.unsubscribe();
     });
   }
 
-  onCancel() {
+  onCancel(form: NgForm) {
+    this.errorMessages = [];
+    this.isAdded = false;
+    this.totalsDisplay.emit('d-flex');
+    this.isSuccessfullyAdd.emit(this.isAdded);
+    form.reset();
     this.transactionService.collopsRow(this.newHoldingForm);
-    this.router.navigate([this.router.url]).then(() => {});
   }
 }

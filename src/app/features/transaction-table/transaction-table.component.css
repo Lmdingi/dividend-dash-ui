@@ -1,0 +1,28 @@
+.new-holding-success {
+    border: 1px solid rgba(42, 56, 46, 0.041);
+}
+
+/* .columns {
+    order: 1px solid rgb(42, 56, 46);
+} */
+
+th:hover {
+    background-color: #f8f9fa;
+    color: rgb(233, 84, 32);
+    cursor: pointer;
+}
+
+
+.vertical-line {
+    width: 2px;
+    height: inherit;
+    background-color: rgba(0, 0, 0, 0.075);
+    margin: 10px;
+}
+
+.disabled {
+    width: fit-content;
+    pointer-events: none;
+    opacity: 0.5;
+    background-color: #f2f2f2;
+}
